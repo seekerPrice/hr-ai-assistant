@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { LayoutDashboard, Users, UserPlus, Briefcase, Banknote, Settings } from "lucide-react";
+import { LayoutDashboard, Users, UserPlus, Briefcase, Banknote, Settings, MessageSquare } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,6 +56,11 @@ export default function RootLayout({
             <Link href="/payroll" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-md transition-colors">
               <Banknote size={20} />
               <span className="text-sm font-medium">Payroll</span>
+            </Link>
+
+            <Link href="/chat" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-md transition-colors">
+              <MessageSquare size={20} />
+              <span className="text-sm font-medium">Chatbot</span>
             </Link>
 
             <Link href="/settings" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-md transition-colors">

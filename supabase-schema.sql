@@ -16,11 +16,47 @@ CREATE TABLE employees (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Profiles table for chatbot workflows
+CREATE TABLE profiles (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  full_name TEXT,
+  leave_balance INTEGER NOT NULL DEFAULT 12,
+  address_line1 TEXT,
+  address_line2 TEXT,
+  city TEXT,
+  state TEXT,
+  postal_code TEXT,
+  country TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE promotion_requests (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending_review' CHECK (status IN ('pending_review', 'approved', 'rejected')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Enable Row Level Security
 ALTER TABLE employees ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE promotion_requests ENABLE ROW LEVEL SECURITY;
 
 -- Create a policy that allows all operations (adjust based on your auth needs)
 CREATE POLICY "Allow all operations" ON employees
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations" ON profiles
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations" ON promotion_requests
   FOR ALL
   USING (true)
   WITH CHECK (true);
@@ -39,3 +75,8 @@ INSERT INTO employees (first_name, last_name, email, role, department, status, s
   ('James', 'Anderson', 'james.a@company.com', 'Financial Analyst', 'Finance', 'active', '2022-08-05', 'New York'),
   ('Olivia', 'Thomas', 'olivia.t@company.com', 'Operations Manager', 'Operations', 'active', '2020-03-12', 'Chicago'),
   ('Daniel', 'Garcia', 'daniel.g@company.com', 'Backend Developer', 'Engineering', 'active', '2023-09-18', 'San Francisco');
+
+INSERT INTO profiles (email, full_name, leave_balance, city, state, country) VALUES
+  ('sarah.chen@company.com', 'Sarah Chen', 12, 'San Francisco', 'CA', 'USA'),
+  ('marcus.j@company.com', 'Marcus Johnson', 15, 'New York', 'NY', 'USA'),
+  ('emily.r@company.com', 'Emily Rodriguez', 10, 'Austin', 'TX', 'USA');
